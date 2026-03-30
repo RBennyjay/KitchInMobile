@@ -62,27 +62,25 @@ The app allows users to add, edit, delete, search, and filter recipes, while als
 - Designed responsive UI using Jetpack Compose components
 
 ---
-
 ## 📂 Project Structure
 
+```text
 KitchInMobile/
 │
 ├── app/
-│ ├── src/main/
-│ │ ├── java/com/benny/kitchinmobile/
-│ │ │ ├── data/ # Room DB (Entity, DAO, Database)
-│ │ │ ├── ui/ # Screens and Composables
-| | | ├── viewmodel/   # State & logic
-│ │ │ └── MainActivity.kt
-│ │ ├── res/
-│ │ └── AndroidManifest.xml
-│ └── build.gradle
+│   ├── src/main/
+│   │   ├── java/com/benny/kitchinmobile/
+│   │   │   ├── data/        # Room DB (Entity, DAO, Database)
+│   │   │   ├── ui/          # Screens and Composables
+│   │   │   ├── viewmodel/   # State & logic
+│   │   │   └── MainActivity.kt
+│   │   ├── res/
+│   │   └── AndroidManifest.xml
+│   └── build.gradle
 │
 ├── gradle/
 ├── build.gradle
 └── settings.gradle
-
-
 ---
 
 ## ▶️ How to Run the App
