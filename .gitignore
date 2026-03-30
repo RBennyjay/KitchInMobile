@@ -1,16 +1,41 @@
-# Compiled class file
-*.class
+# ==============================
+# Android / Kotlin / Gradle
+# ==============================
 
-# Log file
+# Gradle files
+.gradle/
+build/
+
+# Local configuration file (SDK path)
+local.properties
+
+# Log files
 *.log
 
-# BlueJ files
-*.ctxt
+# Android Studio
+.idea/
+*.iml
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
+# Kotlin
+.kotlin/
 
-# Package Files #
+# Generated files
+captures/
+.externalNativeBuild/
+.cxx/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Package files
+*.apk
+*.ap_
+
+# Java/Kotlin compiled files
+*.class
+
+# Archives
 *.jar
 *.war
 *.nar
@@ -19,9 +44,6 @@
 *.tar.gz
 *.rar
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+# Crash logs
 hs_err_pid*
 replay_pid*
-
-# Kotlin Gradle plugin data, see https://kotlinlang.org/docs/whatsnew20.html#new-directory-for-kotlin-data-in-gradle-projects
-.kotlin/
