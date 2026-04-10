@@ -80,68 +80,48 @@ KitchInMobile/
 ├── gradle/
 ├── build.gradle
 └── settings.gradle
+
+
 ▶️ Getting Started
 Clone the repository
 
 Bash
 git clone https://github.com/RBennyjay/KitchInMobile.git
 Open in Android Studio
-
 Allow Gradle to sync
-
 Add Firebase configuration
-
 Download google-services.json from Firebase Console
-
 Place it in the /app directory
-
 Run the app
-
 Use emulator or physical Android device
 
-🧪 Testing
+### 🧪 Testing
 ✅ Tested on Android Emulator (Pixel 5, API 33)
-
 ✅ Tested on physical device
-
 ✅ Verified:
-
 Add, edit, delete operations
-
 Real-time Firestore sync
-
 Search and filtering
-
 Light/Dark mode responsiveness
 
-⚠️ Risks & Mitigation
+### ⚠️ Risks & Mitigation
 Asynchronous Data Handling
-
 Risk: UI delays while fetching cloud data.
-
 Solution: Real-time listeners + reactive UI updates.
 
 Firestore Security Rules
-
 Risk: Improper access configuration.
-
 Solution: Used Test Mode for development, planned secure rules.
 
 Sensitive File Exposure
-
 Risk: Firebase config leakage.
-
 Solution: .gitignore used to exclude credentials.
 
-🚀 Future Improvements
+###🚀 Future Improvements
 🔐 Firebase Authentication (user accounts)
-
 📷 Image upload for recipes
-
 📡 Offline caching support
-
 🎨 Enhanced animations and UI transitions
-
 🔒 Production-level Firestore security rules
 
 👨‍💻 Author
