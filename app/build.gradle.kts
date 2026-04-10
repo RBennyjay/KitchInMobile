@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("com.google.gms.google-services")
     id("com.google.devtools.ksp") version "1.9.22-1.0.17"
 }
 
@@ -48,6 +49,15 @@ android {
 }
 
 dependencies {
+    // Firebase BOM (manages versions automatically)
+    implementation(platform("com.google.firebase:firebase-bom:32.2.0"))
+
+    // Firestore Kotlin Extensions
+    implementation("com.google.firebase:firebase-firestore-ktx")
+
+    // Optional: Firebase Analytics (if needed)
+    // implementation("com.google.firebase:firebase-analytics-ktx")
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -64,10 +74,10 @@ dependencies {
     implementation("androidx.compose.material:material-icons-extended")
 
     // Room (FIXED: added KSP compiler)
-    val room_version = "2.6.1"
-    implementation("androidx.room:room-runtime:$room_version")
-    implementation("androidx.room:room-ktx:$room_version")
-    ksp("androidx.room:room-compiler:$room_version") // ✅ IMPORTANT
+//    val room_version = "2.6.1"
+//    implementation("androidx.room:room-runtime:$room_version")
+//    implementation("androidx.room:room-ktx:$room_version")
+//    ksp("androidx.room:room-compiler:$room_version") // ✅ IMPORTANT
 
     // Testing
     testImplementation(libs.junit)

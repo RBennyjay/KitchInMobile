@@ -1,78 +1,81 @@
-# KitchInMobile 🍲
+🍲 KitchInMobile
 
-## 📱 Overview
-KitchInMobile is an Android application built with Kotlin and Jetpack Compose.  
-It is a modern mobile version of the "Kitch-In" Recipe Manager, transitioning from a console-based application to a touch-based, user-friendly mobile experience.
 
-The app allows users to add, edit, delete, search, and filter recipes, while also providing insights such as total recipe count and search result count. Data is stored locally using Room Database for persistence.
 
----
 
----
-## 🚀 Features
-- 📋 View a list of recipes using LazyColumn
-- ➕ Add new recipes
-- ✏️ Edit existing recipes
-- ❌ Delete individual recipes
-- 🧹 Clear all recipes (reset database)
-- 🔍 Search recipes by name
-- 🗂️ Filter recipes dynamically
-- 📊 Display total recipe count
-- 🔢 Display search result count
-- 🌙 Supports Light and Dark Mode
-- 💾 Persistent storage using Room Database
----
 
-## 🛠️ Tech Stack
-- **Language:** Kotlin
-- **UI Framework:** Jetpack Compose
-- **Architecture Approach:** Single Activity with Composable Screens
-- **State Management:** `remember` and `mutableStateOf` (State Hoisting)
-- **Database:** Room Database (Local persistence)
-- **IDE:** Android Studio
 
----
 
-## 🧩 How Requirements Were Met
 
-### ✔ UI/UX Implementation
-- Used **Scaffold layout** with:
-    - TopAppBar for navigation
-    - Floating Action Button (FAB) for adding recipes
-- Displayed recipes efficiently using **LazyColumn**
 
-### ✔ State Management
-- Implemented **Compose State (`remember`, `mutableStateOf`)**
-- Used **state hoisting** to maintain a single source of truth
-- Ensured UI updates automatically when data changes
 
-### ✔ Data Persistence
-- Implemented **Room Database**
-- Recipes are stored locally and persist after app restart
+📱 Overview
 
-### ✔ Core Functionalities
-- Add, edit, and delete recipes
-- Clear all stored recipes
-- Search and filter recipes dynamically
-- Display total number of recipes
-- Display number of search results
+KitchInMobile is a modern Android application built with Kotlin and Jetpack Compose that allows users to manage recipes in a clean and interactive interface.
 
-### ✔ UI Enhancements
-- Implemented Dark Mode support
-- Designed responsive UI using Jetpack Compose components
+This project demonstrates the transition from a local storage system to a real-time cloud-based architecture using Firebase Firestore, enabling seamless data synchronization across devices.
 
----
-## 📂 Project Structure
+✨ Key Features
+📋 View recipes in a clean, scrollable list (LazyColumn)
+➕ Add new recipes (cloud-stored)
+✏️ Edit existing recipes
+❌ Delete recipes
+🔄 Real-time updates (no refresh required)
+🔍 Search by recipe name or ingredients
+📊 Live recipe count and filtered results
+🌙 Light & Dark mode support
+☁️ Cloud-backed data with Firebase Firestore
+🛠️ Tech Stack
+Layer	Technology
+Language	Kotlin
+UI	Jetpack Compose
+Architecture	MVVM
+State Management	StateFlow + Compose State
+Backend	Firebase Firestore
+Tools	Android Studio
+☁️ Cloud Database Implementation
 
-```text
+This project fulfills a Cloud Database implementation using Firebase Firestore.
+
+🔗 Connectivity
+Firebase project configured and linked to Android app
+google-services.json integrated securely
+Firestore SDK used for backend communication
+🔄 CRUD Operations
+Operation	Implementation
+Create	Add recipes to recipes collection
+Read	Fetch recipes on app launch
+Update	Edit recipes and sync to Firestore
+Delete	Remove recipes from database
+⚡ Real-Time Synchronization
+Implemented addSnapshotListener
+UI updates instantly when:
+Data is added
+Data is modified
+Data is deleted
+No manual refresh required
+🧠 Architecture Flow
+UI (Jetpack Compose)
+↓
+ViewModel (State Management)
+↓
+Repository (Firestore Logic)
+↓
+Firebase Firestore (Cloud Database)
+🔐 Security
+google-services.json excluded via .gitignore
+Firestore running in Test Mode (development)
+Designed for future authentication integration
+📂 Project Structure
 KitchInMobile/
 │
 ├── app/
 │   ├── src/main/
 │   │   ├── java/com/benny/kitchinmobile/
-│   │   │   ├── data/        # Room DB (Entity, DAO, Database)
-│   │   │   ├── ui/          # Screens and Composables
-│   │   │   ├── viewmodel/   # State & logic
+│   │   │   ├── repository/   # Firestore logic
+│   │   │   ├── domain/       # Data models
+│   │   │   ├── ui/           # Screens & components
+│   │   │   ├── viewmodel/    # State management
 │   │   │   └── MainActivity.kt
 │   │   ├── res/
 │   │   └── AndroidManifest.xml
@@ -81,47 +84,54 @@ KitchInMobile/
 ├── gradle/
 ├── build.gradle
 └── settings.gradle
----
-
-## ▶️ How to Run the App
-1. Clone the repository:
-
-git clone https://github.com/RBennyjay/KitchInMobile.git
-
+▶️ Getting Started
+1. Clone the repository
+   git clone https://github.com/RBennyjay/KitchInMobile.git
 2. Open in Android Studio
-3. Allow Gradle to sync
-4. Run on emulator or physical device
+   Allow Gradle to sync
+3. Add Firebase configuration
+   Download google-services.json from Firebase Console
+   Place it in the /app directory
+4. Run the app
+   Use emulator or physical Android device
+   🎬 Demo
 
----
+(Add your demo video link here after recording)
 
-## ⚠️ Risks and Mitigation
+Example:
 
-### 1. Android Studio Performance Issues
-- **Risk:** Emulator may be slow
-- **Solution:** Use physical device for testing
+https://your-demo-link.com
+🧪 Testing
+✅ Tested on Android Emulator (Pixel 5, API 33)
+✅ Tested on physical device
+✅ Verified:
+Add, edit, delete operations
+Real-time Firestore sync
+Search and filtering
+Light/Dark mode responsiveness
+⚠️ Risks & Mitigation
+1. Asynchronous Data Handling
+   Risk: UI delays while fetching cloud data
+   Solution: Real-time listeners + reactive UI updates
+2. Firestore Security Rules
+   Risk: Improper access configuration
+   Solution: Used Test Mode for development, planned secure rules
+3. Sensitive File Exposure
+   Risk: Firebase config leakage
+   Solution: .gitignore used to exclude credentials
+   🚀 Future Improvements
+   🔐 Firebase Authentication (user accounts)
+   📷 Image upload for recipes
+   📡 Offline caching support
+   🎨 Enhanced animations and UI transitions
+   🔒 Production-level Firestore security rules
+   👨‍💻 Author
 
-### 2. Jetpack Compose State Complexity
-- **Risk:** Managing state across screens
-- **Solution:** Applied **state hoisting** and kept a single source of truth
+Benny Jay
 
----
+   👨‍💻 Author
 
-## 📈 Future Improvements
-- Add user authentication
-- Sync recipes with cloud database
-- Improve UI animations and transitions
-- Add image support for recipes
-
----
-
-## 🧪 Testing
-- Tested on Android Emulator (Pixel 5, API 33)
-- Verified functionality for add, delete, and search features
-- Tested UI responsiveness in light and dark modes
-
----
-
-## 👨‍💻 Author
+Benny Jay
 **Ebenezer John (Benny Jay)**
 
 ---

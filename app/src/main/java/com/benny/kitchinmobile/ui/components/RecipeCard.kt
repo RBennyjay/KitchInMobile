@@ -27,7 +27,8 @@ import androidx.compose.runtime.remember
 
 import androidx.compose.foundation.clickable
 
-import androidx.compose.ui.unit.sp
+import androidx.compose.animation.animateContentSize
+
 
 
 @Composable
@@ -43,10 +44,11 @@ fun RecipeCard(
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 10.dp)
-            .clickable { expanded = !expanded }, // Toggle expand on tap
+            .animateContentSize() // Smoothly animates the height change
+            .clickable { expanded = !expanded },
         shape = RoundedCornerShape(28.dp),
         colors = CardDefaults.elevatedCardColors(
-            containerColor = MaterialTheme.colorScheme.surface // adapts to light/dark
+            containerColor = MaterialTheme.colorScheme.surface
         ),
         elevation = CardDefaults.elevatedCardElevation(defaultElevation = 3.dp)
     ) {
@@ -68,9 +70,8 @@ fun RecipeCard(
                     overflow = TextOverflow.Ellipsis
                 )
 
-                // Time Badge (Pill Style)
                 Surface(
-                    color = MaterialTheme.colorScheme.surfaceVariant, // adapts automatically
+                    color = MaterialTheme.colorScheme.surfaceVariant,
                     shape = CircleShape
                 ) {
                     Row(
@@ -93,7 +94,7 @@ fun RecipeCard(
                 }
             }
 
-            // --- MIDDLE: Ingredients ---
+            // --- MIDDLE: Ingredients (Always shows at least 2 lines) ---
             Text(
                 text = "Ingredients:",
                 style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold),
@@ -104,25 +105,25 @@ fun RecipeCard(
             Text(
                 text = recipe.ingredients.joinToString(", "),
                 style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurface, // readable in dark mode
+                color = MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier.padding(top = 4.dp),
                 maxLines = if (expanded) Int.MAX_VALUE else 2,
                 overflow = TextOverflow.Ellipsis
             )
 
-            // --- INSTRUCTIONS (only when expanded) ---
+            // --- BOTTOM: Instructions (HIDDEN UNTIL EXPANDED) ---
             if (expanded) {
-                Spacer(modifier = Modifier.height(12.dp))
                 Text(
                     text = "Instructions:",
                     style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold),
-                    color = MaterialTheme.colorScheme.onSurface
+                    color = MaterialTheme.colorScheme.onSurface,
+                    modifier = Modifier.padding(top = 12.dp)
                 )
+
                 Text(
                     text = recipe.instructions,
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurface,
-                    lineHeight = 20.sp,
                     modifier = Modifier.padding(top = 4.dp)
                 )
             }
@@ -135,7 +136,6 @@ fun RecipeCard(
                 horizontalArrangement = Arrangement.End,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                // Edit Button
                 FilledTonalIconButton(
                     onClick = onEdit,
                     modifier = Modifier.size(36.dp),
@@ -153,7 +153,6 @@ fun RecipeCard(
 
                 Spacer(modifier = Modifier.width(12.dp))
 
-                // Delete Button
                 IconButton(
                     onClick = onDelete,
                     modifier = Modifier

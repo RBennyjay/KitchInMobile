@@ -49,7 +49,8 @@ fun RecipeListScreen(
         AlertDialog(
             onDismissRequest = { recipeToDelete = null },
             title = { Text("Delete Recipe?", fontWeight = FontWeight.Bold) },
-            text = { Text("Are you sure you want to remove '${recipeToDelete?.title}'?") },
+//            text = { Text("Are you sure you want to remove '${recipeToDelete?.title}'?") },
+            text = { Text("Are you sure you want to remove '${recipeToDelete?.title ?: ""}'?") },
             confirmButton = {
                 TextButton(
                     onClick = {
@@ -86,7 +87,7 @@ fun RecipeListScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 8.dp),
-            placeholder = { Text("Search by name or ingredient...") },
+            placeholder = { Text("Search by title or ingredient...") },
             leadingIcon = {
                 Icon(Icons.Default.Search, contentDescription = null, tint = Color.Gray)
             },

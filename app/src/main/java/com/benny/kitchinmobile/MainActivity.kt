@@ -20,13 +20,16 @@ import androidx.compose.ui.text.font.FontWeight
 
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.room.Room
-import com.benny.kitchinmobile.data.AppDatabase
+//import androidx.room.Room
+//import com.benny.kitchinmobile.data.AppDatabase
 import com.benny.kitchinmobile.domain.Recipe
 import com.benny.kitchinmobile.ui.theme.KitchInMobileTheme
 import com.benny.kitchinmobile.viewmodel.RecipeViewModel
 import kotlinx.coroutines.launch
 import com.benny.kitchinmobile.ui.screens.RecipeListScreen
+
+import com.benny.kitchinmobile.repository.RecipeRepository
+import android.util.Log
 
 
 
@@ -36,19 +39,16 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        val db = Room.databaseBuilder(
-            applicationContext,
-            AppDatabase::class.java,
-            "kitchin-db"
-        ).build()
-
-        val viewModel = RecipeViewModel(db.recipeDao())
+        // 🔹 Firestore-only setup
+        val repository = RecipeRepository()
+        val viewModel = RecipeViewModel(repository)
 
         setContent {
             MainScreen(viewModel)
         }
     }
 }
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -58,7 +58,9 @@ fun MainScreen(viewModel: RecipeViewModel) {
 
     KitchInMobileTheme(darkTheme = isDarkMode) {
 
-        val recipeList by viewModel.recipes.collectAsState()
+//        val recipeList by viewModel.recipes.collectAsState()
+
+        val recipeList by viewModel.recipes
 
         var showAddDialog by remember { mutableStateOf(false) }
         var isExpanded by remember { mutableStateOf(false) }
@@ -114,15 +116,15 @@ fun MainScreen(viewModel: RecipeViewModel) {
                             icon = { Icon(Icons.Default.Settings, null) }
                         )
 
-                        NavigationDrawerItem(
-                            label = { Text("Clear All Recipes", color = Color.Red) },
-                            selected = false,
-                            onClick = {
-                                viewModel.clearAllRecipes()
-                                scope.launch { drawerState.close() }
-                            },
-                            icon = { Icon(Icons.Default.Delete, null, tint = Color.Red) }
-                        )
+//                        NavigationDrawerItem(
+//                            label = { Text("Clear All Recipes", color = Color.Red) },
+//                            selected = false,
+//                            onClick = {
+//                                viewModel.clearAllRecipes()
+//                                scope.launch { drawerState.close() }
+//                            },
+//                            icon = { Icon(Icons.Default.Delete, null, tint = Color.Red) }
+//                        )
 
                         Spacer(modifier = Modifier.weight(1f))
 
@@ -196,9 +198,11 @@ fun MainScreen(viewModel: RecipeViewModel) {
                             viewModel.addRecipe(
                                 it.title,
                                 it.prepTime,
-                                it.ingredients.joinToString(","), //  String
-                                it.instructions)
-                            showAddDialog = false
+                                ingredients.joinToString(","), // cleaned version
+                                it.instructions
+                            )
+
+                            showAddDialog = false //  close the dialog
                         }
                     )
                 }
@@ -215,7 +219,7 @@ fun AddRecipeDialog(onDismiss: () -> Unit, onSave: (Recipe) -> Unit) {
     var title by remember { mutableStateOf("") }
     var prepTime by remember { mutableStateOf("") }
     var ingredientsText by remember { mutableStateOf("") }
-    var instructions by remember { mutableStateOf("Instructions...") }
+    var instructions by remember { mutableStateOf("") }
 
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -225,11 +229,13 @@ fun AddRecipeDialog(onDismiss: () -> Unit, onSave: (Recipe) -> Unit) {
                 OutlinedTextField(title, { title = it }, label = { Text("Recipe Title") }, singleLine = true)
                 OutlinedTextField(prepTime, { prepTime = it }, label = { Text("Time (e.g. 30 mins)") }, singleLine = true)
                 OutlinedTextField(ingredientsText, { ingredientsText = it }, label = { Text("Ingredients") }, placeholder = { Text("Rice, Tomato, Onion...") })
-                OutlinedTextField(instructions, { instructions = it }, label = { Text("Instructions") })
+                OutlinedTextField(instructions, { instructions = it }, label = { Text("Instructions") }, placeholder = { Text("Preparation instruction...") })
             }
         },
         confirmButton = {
             Button(onClick = {
+                Log.d("DEBUG", "Save button clicked")
+
                 if (title.isNotBlank()) {
                     val ingredients = ingredientsText.split(",").map { it.trim().replaceFirstChar { c -> c.uppercase() } }
                     onSave(Recipe(title = title, prepTime = prepTime, ingredients = ingredients, instructions = instructions))

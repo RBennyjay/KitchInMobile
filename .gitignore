@@ -47,3 +47,6 @@ Thumbs.db
 # Crash logs
 hs_err_pid*
 replay_pid*
+
+# Firebase
+google-services.json

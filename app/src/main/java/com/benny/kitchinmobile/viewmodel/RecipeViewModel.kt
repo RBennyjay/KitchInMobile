@@ -1,50 +1,56 @@
 package com.benny.kitchinmobile.viewmodel
 
+import android.util.Log
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.benny.kitchinmobile.data.RecipeDao
 import com.benny.kitchinmobile.domain.Recipe
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
+import com.benny.kitchinmobile.repository.RecipeRepository
 
-class RecipeViewModel(private val recipeDao: RecipeDao) : ViewModel() {
+class RecipeViewModel(
+    private val repository: RecipeRepository
+) : ViewModel() {
 
-    val recipes: StateFlow<List<Recipe>> = recipeDao.getAllRecipes()
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5000),
-            initialValue = emptyList()
+    private val _recipes = mutableStateOf<List<Recipe>>(emptyList())
+    val recipes: State<List<Recipe>> = _recipes
+
+    init {
+        //  Real-time updates from Firestore
+        repository.getRecipesRealtime { updatedList ->
+            _recipes.value = updatedList
+        }
+    }
+
+    // ➕ Add Recipe
+    fun addRecipe(title: String, prepTime: String, ingredients: String, instructions: String) {
+
+        Log.d("VIEWMODEL", "addRecipe called")
+        val newRecipe = Recipe(
+            title = title,
+            prepTime = prepTime,
+            ingredients = ingredients.split(",").map { it.trim() },
+            instructions = instructions
         )
 
-    fun addRecipe(title: String, prepTime: String, ingredients: String, instructions: String) {
-        viewModelScope.launch {
-            val newRecipe = Recipe(
-                title = title,
-                prepTime = prepTime,
-                ingredients = ingredients.split(",").map { it.trim() },
-                instructions = instructions
-            )
-            recipeDao.insertRecipe(newRecipe)
-        }
+        repository.addRecipe(newRecipe,
+            onSuccess = { Log.d("VIEWMODEL", "Recipe added successfully") },
+            onFailure = { e -> Log.e("VIEWMODEL", "Add failed", e) }
+        )
     }
 
+    // ✏ Update Recipe
     fun updateRecipe(recipe: Recipe) {
-        viewModelScope.launch {
-            recipeDao.insertRecipe(recipe) // REPLACE handles update
-        }
+        repository.updateRecipe(recipe,
+            onSuccess = { Log.d("VIEWMODEL", "Recipe updated successfully") },
+            onFailure = { e -> Log.e("VIEWMODEL", "Update failed", e) }
+        )
     }
 
+    //  Delete Recipe
     fun deleteRecipe(recipe: Recipe) {
-        viewModelScope.launch {
-            recipeDao.deleteRecipe(recipe)
-        }
-    }
-
-    fun clearAllRecipes() {
-        viewModelScope.launch {
-            recipeDao.deleteAll()
-        }
+        repository.deleteRecipe(recipe.id,
+            onSuccess = { Log.d("VIEWMODEL", "Recipe deleted successfully") },
+            onFailure = { e -> Log.e("VIEWMODEL", "Delete failed", e) }
+        )
     }
 }
