@@ -1,72 +1,97 @@
-🍲 KitchInMobile
-
-
-
-
-
-
-
-
-
+KitchInMobile 🍲
 
 📱 Overview
+KitchInMobile is an Android application built with Kotlin and Jetpack Compose.
+It is a modern mobile version of the "Kitch-In" Recipe Manager, upgraded from a local storage system to a real-time cloud-based application using Google Firebase Firestore.
 
-KitchInMobile is a modern Android application built with Kotlin and Jetpack Compose that allows users to manage recipes in a clean and interactive interface.
+The app allows users to add, edit, delete, search, and filter recipes, while automatically syncing data across devices in real-time. This transition demonstrates the implementation of a distributed cloud database system.
 
-This project demonstrates the transition from a local storage system to a real-time cloud-based architecture using Firebase Firestore, enabling seamless data synchronization across devices.
+🚀 Features
+📋 View a list of recipes using LazyColumn
 
-✨ Key Features
-📋 View recipes in a clean, scrollable list (LazyColumn)
-➕ Add new recipes (cloud-stored)
+➕ Add new recipes (stored in Firestore)
+
 ✏️ Edit existing recipes
-❌ Delete recipes
-🔄 Real-time updates (no refresh required)
-🔍 Search by recipe name or ingredients
-📊 Live recipe count and filtered results
-🌙 Light & Dark mode support
-☁️ Cloud-backed data with Firebase Firestore
+
+❌ Delete individual recipes
+
+🔄 Real-time updates (no refresh needed)
+
+🔍 Search recipes by name or ingredients
+
+🗂️ Dynamic filtering of recipes
+
+📊 Display total recipe count
+
+🔢 Display search result count
+
+🌙 Supports Light and Dark Mode
+
+☁️ Cloud-based storage using Firebase Firestore
+
 🛠️ Tech Stack
-Layer	Technology
-Language	Kotlin
-UI	Jetpack Compose
-Architecture	MVVM
-State Management	StateFlow + Compose State
-Backend	Firebase Firestore
-Tools	Android Studio
+Language: Kotlin
+
+UI Framework: Jetpack Compose
+
+Architecture: MVVM (Model-View-ViewModel)
+
+State Management: StateFlow + Compose State
+
+Database: Firebase Firestore (Cloud NoSQL Database)
+
+Cloud Platform: Google Firebase
+
+IDE: Android Studio
+
 ☁️ Cloud Database Implementation
+This project fulfills the Cloud Databases module by integrating Firebase Firestore into the application.
 
-This project fulfills a Cloud Database implementation using Firebase Firestore.
+✔ Cloud Service & Connectivity
+Configured Firebase project and connected Android app
 
-🔗 Connectivity
-Firebase project configured and linked to Android app
-google-services.json integrated securely
-Firestore SDK used for backend communication
-🔄 CRUD Operations
-Operation	Implementation
-Create	Add recipes to recipes collection
-Read	Fetch recipes on app launch
-Update	Edit recipes and sync to Firestore
-Delete	Remove recipes from database
-⚡ Real-Time Synchronization
+Integrated Firebase SDK using google-services.json
+
+Established secure connection between app and Firestore backend
+
+✔ CRUD Operations
+Create: Recipes are added as documents in the recipes collection
+
+Read: Recipes are fetched and displayed on app launch
+
+Update: Recipes can be edited and saved back to Firestore
+
+Delete: Recipes can be removed from both UI and database
+
+✔ Real-Time Synchronization
 Implemented addSnapshotListener
+
 UI updates instantly when:
-Data is added
-Data is modified
-Data is deleted
+
+A recipe is added
+
+A recipe is edited
+
+A recipe is deleted
+
 No manual refresh required
-🧠 Architecture Flow
-UI (Jetpack Compose)
-↓
-ViewModel (State Management)
-↓
-Repository (Firestore Logic)
-↓
-Firebase Firestore (Cloud Database)
-🔐 Security
-google-services.json excluded via .gitignore
-Firestore running in Test Mode (development)
-Designed for future authentication integration
+
+✔ Data Modeling
+Used Kotlin data classes mapped directly to Firestore documents
+
+Supports:
+
+Lists (ingredients)
+
+Strings (instructions, prep time)
+
+Firestore automatically serializes/deserializes data
+
+✔ Architecture Flow
+UI (Jetpack Compose) → ViewModel (State Management) → Repository (Firestore Logic) → Firebase Firestore (Cloud Database)
+
 📂 Project Structure
+Plaintext
 KitchInMobile/
 │
 ├── app/
@@ -84,57 +109,60 @@ KitchInMobile/
 ├── gradle/
 ├── build.gradle
 └── settings.gradle
-▶️ Getting Started
-1. Clone the repository
-   git clone https://github.com/RBennyjay/KitchInMobile.git
-2. Open in Android Studio
-   Allow Gradle to sync
-3. Add Firebase configuration
-   Download google-services.json from Firebase Console
-   Place it in the /app directory
-4. Run the app
-   Use emulator or physical Android device
-   🎬 Demo
+▶️ How to Run the App
+Clone the repository:
 
-(Add your demo video link here after recording)
+Bash
+git clone https://github.com/RBennyjay/KitchInMobile.git
+Open in Android Studio
 
-Example:
+Add your own Firebase configuration file:
 
-https://your-demo-link.com
+Download google-services.json from Firebase Console
+
+Place it in the /app directory
+
+Sync Gradle
+
+Run on emulator or physical device
+
+⚠️ Risks and Mitigation
+Asynchronous Data Handling
+
+Risk: UI may appear empty while loading data.
+
+Solution: Implemented real-time listeners and reactive UI updates.
+
+Firestore Security Rules
+
+Risk: Misconfigured rules may block access.
+
+Solution: Used Test Mode during development and plan to implement authentication.
+
+Exposure of Sensitive Files
+
+Risk: google-services.json could be leaked.
+
+Solution: Added to .gitignore to prevent upload to GitHub.
+
+📈 Future Improvements
+Add Firebase Authentication (user accounts)
+
+Implement offline caching
+
+Add image upload for recipes
+
+Improve animations and transitions
+
+Deploy production-level Firestore security rules
+
 🧪 Testing
-✅ Tested on Android Emulator (Pixel 5, API 33)
-✅ Tested on physical device
-✅ Verified:
-Add, edit, delete operations
-Real-time Firestore sync
-Search and filtering
-Light/Dark mode responsiveness
-⚠️ Risks & Mitigation
-1. Asynchronous Data Handling
-   Risk: UI delays while fetching cloud data
-   Solution: Real-time listeners + reactive UI updates
-2. Firestore Security Rules
-   Risk: Improper access configuration
-   Solution: Used Test Mode for development, planned secure rules
-3. Sensitive File Exposure
-   Risk: Firebase config leakage
-   Solution: .gitignore used to exclude credentials
-   🚀 Future Improvements
-   🔐 Firebase Authentication (user accounts)
-   📷 Image upload for recipes
-   📡 Offline caching support
-   🎨 Enhanced animations and UI transitions
-   🔒 Production-level Firestore security rules
-   👨‍💻 Author
+Tested on Android Emulator (Pixel 5, API 33) and physical Android devices.
 
-Benny Jay
+Verified: Real-time sync, CRUD operations, Search/Filtering, and UI responsiveness (light/dark mode).
 
-   👨‍💻 Author
+👨‍💻 Author
+Ebenezer John (Benny Jay)
 
-Benny Jay
-**Ebenezer John (Benny Jay)**
-
----
-
-## 📄 License
+📄 License
 This project is for educational purposes.
