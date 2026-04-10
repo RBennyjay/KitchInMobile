@@ -95,7 +95,7 @@ Place it in the /app directory
 Run the app
 Use emulator or physical Android device
 
-### 🧪 Testing
+🧪 Testing
 ✅ Tested on Android Emulator (Pixel 5, API 33)
 ✅ Tested on physical device
 ✅ Verified:
@@ -104,7 +104,7 @@ Real-time Firestore sync
 Search and filtering
 Light/Dark mode responsiveness
 
-### ⚠️ Risks & Mitigation
+⚠️ Risks & Mitigation
 Asynchronous Data Handling
 Risk: UI delays while fetching cloud data.
 Solution: Real-time listeners + reactive UI updates.
@@ -117,7 +117,7 @@ Sensitive File Exposure
 Risk: Firebase config leakage.
 Solution: .gitignore used to exclude credentials.
 
-###🚀 Future Improvements
+🚀 Future Improvements
 🔐 Firebase Authentication (user accounts)
 📷 Image upload for recipes
 📡 Offline caching support
